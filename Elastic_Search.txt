@@ -1,0 +1,10 @@
+Elastic Search:
+
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.10.2-amd64.deb
+
+sudo dpkg -i elasticsearch-7.10.2-amd64.deb
+
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable elasticsearch.service
+
+sudo -i service elasticsearch start
