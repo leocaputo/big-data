@@ -8,3 +8,9 @@ sudo /bin/systemctl daemon-reload
 sudo /bin/systemctl enable elasticsearch.service
 
 sudo -i service elasticsearch start
+
+No notebook Jupyter:
+
+!pip install elasticsearch
+!pip install csv2es
+!pip install requests
