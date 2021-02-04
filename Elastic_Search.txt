@@ -16,6 +16,7 @@ No notebook Jupyter:
 !pip install requests
 
 No terminal:
+pip install -U elasticsearch
 python -m pip install elasticsearch
 
 
