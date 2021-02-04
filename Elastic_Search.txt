@@ -14,3 +14,13 @@ No notebook Jupyter:
 !pip install elasticsearch
 !pip install csv2es
 !pip install requests
+
+No terminal:
+python -m pip install elasticsearch
+
+
+pip uninstall urllib3
+pip uninstall csv2es
+pip uninstall elasticsearch
+pip install requests
+python -m pip install elasticsearch
