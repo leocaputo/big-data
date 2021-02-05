@@ -25,3 +25,9 @@ pip uninstall csv2es
 pip uninstall elasticsearch
 pip install requests
 python -m pip install elasticsearch
+
+
+
+Professor. Nosso colega Taylan encontrou uma solução para o problema de Transport Error:
+No terminal: pip uninstall elasticsearch
+No notebook: !pip install elasticsearch
