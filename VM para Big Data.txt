@@ -167,7 +167,7 @@
 		#browser auto-opening
 		#set ip to '*' to bind on all interfaces (ips) for the public server
 		c.NotebookApp.ip='*'
-		c.NotebookApp.password = u'argon2:$argon2id$v=19$m=10240,t=10,p=8$cn1ARkK4/c8c1xe5ml8LPw$ksMIMXS0rbbVPZ6aMiOENg'
+		c.NotebookApp.password = u'argon2:$argon2id$v=19$m=10240,t=10,p=8$cn1ARkK4/c8c1xe5ml8LPw$ksM1MXS0rbbVPZ6aMiOENg'
 		c.NotebookApp.open_browser = False
 		
 		#It is a good idea to set a known, fixed port for server access
@@ -202,12 +202,12 @@
 	Novo kernel Python3
 	import pyspark
 	import random
-	sc = pyspark.SparkContext(appName='Pi')
+	#sc = pyspark.SparkContext(appName='Pi')
 	num_samples = 100000000
 	def inside(p):
 		x,y = random.random(), random.random()
 		return x*x + y*y < 1
-	count = sc.paralleize(range(0,num_samples)).filter(inside).count()
+	count = sc.parallelize(range(0,num_samples)).filter(inside).count()
 	pi = 4 * count / num_samples
 	print(pi)
 	
