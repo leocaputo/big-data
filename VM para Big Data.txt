@@ -1,0 +1,225 @@
+1) Instalação VM Ubuntu
+	Baixar Iso do Ubuntu Desktop
+	Baixar e instalar Oracle VirtualBox
+	Configurar a máquina virtual como Linux Ubuntu (disco,memoria,processador,etc)
+	Em armazenamento--> Controladora IDE --> Inserir o ISO do Ubuntu
+	Após instalado executar comandos no terminal:
+	sudo apt-get install build-essential openssh-server vim
+	ip addr
+	Do terminal externo: ssh 'usuario'@'ipaddress'
+	sudo apt install openjdk-8-jdk -y
+
+
+2) Instalação do Hadoop
+	Criar usuário hadoop:  (PULAR ! NÃO CRIAR !)
+		su - hdoop
+		ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+		cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+		chmod 0600 ~/.ssh/authorized_keys
+		ssh localhost
+		sair
+		ssh localhost
+	Intalação (obs: no lugar de hdoop usar o nome do usuário)
+		mkdir src
+		cd src/
+		pwd/home/hdoop/src
+		wget -c https://downloads.apache.org/hadoop/common/hadoop-3.2.2/hadoop-3.2.2.tar.gz
+		tar -vxf hadoop-3.2.2.tar.gz
+	Configuração:
+		cd src/
+		pwd/home/hdoop/src
+		EDITAR O BASHRC:
+		vim .bashrc
+			i para iniciar a edição do arquivo
+			Enter e inserir texto:
+				# Hadoop Related Options
+				export HADOOP=/home/hdoop/hadoop
+				export HADOOP_INSTALL=$HADOOP_HOME
+				export HADOOP_MAPRED_HOME=$HADOOP_HOME
+				export HADOOP_COMMON_HOME=$HADOOP_HOME
+				export HADOOP_HDFS_HOME=$HADOOP_HOME
+				export YARN_HOME=$HADOOP_HOME
+				export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+				export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+				export HADOOP_OPTS"Djava.library.path=$HADOOP_HOME/lib/native
+			:wq
+		mv src/hadoop-3.2.2 hadoop
+		ls -lah
+
+		CRIAR VARIÁVEIS DE AMBIENTE:
+		source .bashrc
+		env
+		INDICAR ONDE ESTÁ O JAVA:
+		vim .bashrc
+			i para iniciar a edição do arquivo
+			export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+			:wq
+		source .bashrc
+		echo $JAVA_HOME
+		vim hadoop/etc/hadoop/hadoo-env.sh
+			i para iniciar a edição do arquivo
+			Procurar # Set Hadoop-specific environment variables here
+			export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+			:wq
+		CONFIGURAR CORE SITE
+		vim hadoop/etc/hadoop/core-site.xml
+		i para iniciar a edição do arquivo
+		Procurar Put site-specific property
+		Digitar:
+			<configuration>
+			<property>
+				<name>hadoop.tmp.dir</name>
+				<value>/home/hdoop/tmpdata<value>
+			</property>
+			<property>
+				<name>fs.default.name</name>
+				<value>hdfs://127.0.0.1:9000</value>
+			</property>
+			</configuration>
+                :wq
+		CONFIGURAR HDFS SITE
+		vim hadoop/etc/hadoop/hdfs-site.xml
+		i para iniciar a edição do arquivo
+		Procurar Put site-specific property
+		Digitar:
+			<configuration>
+			<property>
+				<name>dfs.data.dir</name>
+				<value>/home/hdoop/dfsdata/namenode<value>
+			</property>
+			<property>
+				<name>dfs.data.dir</name>
+				<value>home/hdoop/dfsdata/datanode</value>
+			</property>
+			<property>
+				<name>dfs.replication</name>
+				<value>1</value>
+			</property>
+			</configuration>
+		:wq
+		CONFIGURAR MAPRED SITE
+		vim hadoop/etc/hadoop/mapred-site.xml
+		i para iniciar a edição do arquivo
+		Procurar Put site-specific property
+		Digitar:
+			<configuration>
+			<property>
+				<name>mapreduce.framework.name</name>
+				<value>yarn<value>
+			</property>
+			</configuration>
+		:wq
+		CONFIGURAR YARN SITE
+		vim hadoop/etc/hadoop/yarn-site.xml
+		i para iniciar a edição do arquivo
+		Procurar Put site-specific property
+		Digitar:
+			<configuration>
+			<property>
+				<name>yarn.nodemanager.aux-services</name>
+				<value>mapreduce_shuffle<value>
+			</property>
+			<property>
+				<name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+				<value>org.apache.hadoop.mapred.ShuflleHandler<value>
+			</property>
+			<property>
+				<name>yarn.resourcemanager.hostname</name>
+				<value>127.0.0.1<value>
+			</property>
+			<property>
+				<name>yarn.acl.enable</name>
+				<value>0<value>
+			</property>
+			<property>
+				<name>yarn.nodemanager.env-whitelist</name>
+				<value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PERPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME<value>
+			</property>
+			</configuration>
+		:wq
+		FORMATAR PASTA DE ORGANIZAÇÃO DE NAMENODES
+			hdfs namenode -format
+		ls hadoop/sbin/start-dfs.sh ^C
+		vim .bashrc
+			i para iniciar a edição do arquivo
+			export PATH=/home/hdoop/hadoop/sbin:$PATH
+		:wq
+		source .bashrc
+		echo $PATH
+		INICIAR HADOOP
+		start-dfs.sh
+		CHECAR SE HADOOP ESTÁ FUNCIONANDO
+		jps
+		hdfs dfs -mkdir /teste
+		hdfs dfs -ls /
+
+3) Instalação do Anaconda
+	mkdir src
+	cd src/
+	wget -c https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
+	sh Anaconda3-2020.11-Linux-x86_64.sh
+	q para levar até o final do termo de licença
+	source .bashrc
+	jupyter notebook --generate-config
+	vim .jupyter/jupyter_notebook_config.py
+	No final do arquivo:
+		#Set option for cerfile, ip, password, and toggle off
+		#browser auto-opening
+		#set ip to '*' to bind on all interfaces (ips) for the public server
+		c.NotebookApp.ip='*'
+		c.NotebookApp.password = u'argon2:$argon2id$v=19$m=10240,t=10,p=8$cn1ARkK4/c8c1xe5ml8LPw$ksMIMXS0rbbVPZ6aMiOENg'
+		c.NotebookApp.open_browser = False
+		
+		#It is a good idea to set a known, fixed port for server access
+		c.NotebookApp.port = 8888
+		:wq
+	jupyter notebook
+	No browser: 192.168.0.16:8888, senha:01
+
+4) Instalação do Spark
+	cd src/
+	wget https://downloads.apache.org/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz
+	tar -xf spark-3.0.1-bin-hadoop2.7.tgz
+	ls -lah
+	mv -fv spark-3.0.1-bin-hadoop2.7 ../spark
+	cd ~
+	ls
+	spark/bin/pyspark
+
+5) Fazendo Spark funcionar com o Jupyter Notebook
+	vim .bashrc
+	No final do arquivo:
+		export SPARK_HOME=/home/bigdata/spark
+		export PATH=$SPARK_HOME/bin:$PATH
+
+		export PYSPARK_DRIVER_PYTHON=jupyter
+		export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
+		:wq
+	source .bashrc
+	htop
+	pyspark
+	No browser: 192.168.0.16:8888, senha:01
+	Novo kernel Python3
+	import pyspark
+	import random
+	sc = pyspark.SparkContext(appName='Pi')
+	num_samples = 100000000
+	def inside(p):
+		x,y = random.random(), random.random()
+		return x*x + y*y < 1
+	count = sc.paralleize(range(0,num_samples)).filter(inside).count()
+	pi = 4 * count / num_samples
+	print(pi)
+	
+	
+
+	
+	
+	
+		
+		
+		
+		
+	
+		
+
