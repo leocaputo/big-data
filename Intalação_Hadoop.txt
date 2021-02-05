@@ -23,7 +23,7 @@
 		mkdir src
 		cd src/
 		pwd/home/hdoop/src
-		wget -c https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-3.2.2/hadoop-3.2.2.tar.gz
+		wget -c https://downloads.apache.org/hadoop/common/hadoop-3.2.2/hadoop-3.2.2.tar.gz
 		tar -vxf hadoop-3.2.2.tar.gz
 	Configuração:
 		cd src/
