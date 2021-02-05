@@ -1,9 +1,13 @@
+Video de referência: https://www.youtube.com/watch?v=tY7jmp81qPY
+
 1) Instalação VM Ubuntu
-	Baixar Iso do Ubuntu Desktop
+	Baixar Iso do Ubuntu Desktop (https://ubuntu.com/download/desktop)
 	Baixar e instalar Oracle VirtualBox
-	Configurar a máquina virtual como Linux Ubuntu (disco,memoria,processador,etc)
+	Configurar a máquina virtual como Linux Ubuntu (disco=pelo menos 30 GB ou mais,memoria ,processador,etc)
 	Em armazenamento--> Controladora IDE --> Inserir o ISO do Ubuntu
-	Após instalado executar comandos no terminal:
+	Ligar a máquina virtual e seguir a instalação do Ubuntu
+	Sugestão para nome de usuário no ubuntu: bigdata
+	Após instalado se quiser executar comandos no terminal da máquina host (opcional):
 	sudo apt-get install build-essential openssh-server vim
 	ip addr
 	Do terminal externo: ssh 'usuario'@'ipaddress'
@@ -22,7 +26,7 @@
 		ssh localhost
 		sair
 		ssh localhost
-	Intalação (obs: no lugar de hdoop* nas próximas linhas usar o nome do usuário escolhido)
+	Intalação (obs: no lugar do usuario hdoop* nas próximas linhas usar o nome do usuário escolhido)
 		mkdir src
 		cd src/
 		pwd
@@ -45,7 +49,7 @@
 				export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
 				export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
 				export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"
-			:wq
+			esc + :wq
 		mv src/hadoop-3.2.2 hadoop
 		ls -lah
 
@@ -56,14 +60,14 @@
 		vim .bashrc
 			i para iniciar a edição do arquivo
 			export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
-			:wq
+			esc + :wq
 		source .bashrc
 		echo $JAVA_HOME
 		vim hadoop/etc/hadoop/hadoop-env.sh
 			i para iniciar a edição do arquivo
 			Procurar # Set Hadoop-specific environment variables here
 			export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
-			:wq
+			esc + :wq
 		CONFIGURAR CORE SITE
 		vim hadoop/etc/hadoop/core-site.xml
 		i para iniciar a edição do arquivo
@@ -79,7 +83,7 @@
 				<value>hdfs://127.0.0.1:9000</value>
 			</property>
 			</configuration>
-                :wq
+                esc + :wq
 		CONFIGURAR HDFS SITE
 		vim hadoop/etc/hadoop/hdfs-site.xml
 		i para iniciar a edição do arquivo
@@ -99,7 +103,7 @@
 				<value>1</value>
 			</property>
 			</configuration>
-		:wq
+		esc + :wq
 		CONFIGURAR MAPRED SITE
 		vim hadoop/etc/hadoop/mapred-site.xml
 		i para iniciar a edição do arquivo
@@ -111,7 +115,7 @@
 				<value>yarn</value>
 			</property>
 			</configuration>
-		:wq
+		esc + :wq
 		CONFIGURAR YARN SITE
 		vim hadoop/etc/hadoop/yarn-site.xml
 		i para iniciar a edição do arquivo
@@ -139,14 +143,14 @@
 				<value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PERPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
 			</property>
 			</configuration>
-		:wq
+		esc + :wq
 		FORMATAR PASTA DE ORGANIZAÇÃO DE NAMENODES
 			hdfs namenode -format
 		ls hadoop/sbin/start-dfs.sh ^C
 		vim .bashrc
 			i para iniciar a edição do arquivo
 			export PATH=/home/hdoop*/hadoop/sbin:$PATH
-		:wq
+		esc + :wq
 		source .bashrc
 		echo $PATH
 		INICIAR HADOOP
@@ -175,9 +179,9 @@
 		
 		#It is a good idea to set a known, fixed port for server access
 		c.NotebookApp.port = 8888
-		:wq
+		esc + :wq
 	jupyter notebook
-	No browser: 192.168.0.16:8888, senha:01
+	No browser: 192.168.0.16:8888, senha:01 (ip do exemplo, na hora tem que ver o IP com o comando ip addr no terminal)
 
 4) Instalação do Spark
 	cd src/
@@ -197,20 +201,27 @@
 
 		export PYSPARK_DRIVER_PYTHON=jupyter
 		export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
-		:wq
+		esc + :wq
 	source .bashrc
 	htop
 	pyspark
-	No browser: 192.168.0.16:8888, senha:01
+	No browser: 192.168.0.16:8888, senha:01 (ip do exemplo, na hora tem que ver o IP com o comando ip addr no terminal)
 	Novo kernel Python3
+	
+	Notebook de teste:
+
 	import pyspark
 	import random
+
 	#sc = pyspark.SparkContext(appName='Pi')
 	num_samples = 100000000
+	
 	def inside(p):
 		x,y = random.random(), random.random()
 		return x*x + y*y < 1
+	
 	count = sc.parallelize(range(0,num_samples)).filter(inside).count()
+	
 	pi = 4 * count / num_samples
 	print(pi)
 	
