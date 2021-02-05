@@ -11,7 +11,7 @@
 
 
 2) Instalação do Hadoop
-	Criar usuário hadoop:  (PULAR ! NÃO CRIAR !)
+	Criar usuário hdoop:  (PULAR ! NÃO CRIAR !)
 		su - hdoop
 		ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 		cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
@@ -19,21 +19,21 @@
 		ssh localhost
 		sair
 		ssh localhost
-	Intalação (obs: no lugar de hdoop usar o nome do usuário)
+	Intalação (obs: no lugar de hdoop* nas próximas linhas usar o nome do usuário escolhido)
 		mkdir src
 		cd src/
-		pwd/home/hdoop/src
+		pwd
 		wget -c https://downloads.apache.org/hadoop/common/hadoop-3.2.2/hadoop-3.2.2.tar.gz
 		tar -vxf hadoop-3.2.2.tar.gz
 	Configuração:
 		cd src/
-		pwd/home/hdoop/src
+		pwd
 		EDITAR O BASHRC:
 		vim .bashrc
 			i para iniciar a edição do arquivo
 			Enter e inserir texto:
 				# Hadoop Related Options
-				export HADOOP=/home/hdoop/hadoop
+				export HADOOP_HOME=/home/hdoop*/hadoop
 				export HADOOP_INSTALL=$HADOOP_HOME
 				export HADOOP_MAPRED_HOME=$HADOOP_HOME
 				export HADOOP_COMMON_HOME=$HADOOP_HOME
@@ -41,7 +41,7 @@
 				export YARN_HOME=$HADOOP_HOME
 				export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
 				export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
-				export HADOOP_OPTS"Djava.library.path=$HADOOP_HOME/lib/native
+				export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"
 			:wq
 		mv src/hadoop-3.2.2 hadoop
 		ls -lah
@@ -56,7 +56,7 @@
 			:wq
 		source .bashrc
 		echo $JAVA_HOME
-		vim hadoop/etc/hadoop/hadoo-env.sh
+		vim hadoop/etc/hadoop/hadoop-env.sh
 			i para iniciar a edição do arquivo
 			Procurar # Set Hadoop-specific environment variables here
 			export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
@@ -69,7 +69,7 @@
 			<configuration>
 			<property>
 				<name>hadoop.tmp.dir</name>
-				<value>/home/hdoop/tmpdata<value>
+				<value>/home/hdoop*/tmpdata<value>
 			</property>
 			<property>
 				<name>fs.default.name</name>
@@ -85,11 +85,11 @@
 			<configuration>
 			<property>
 				<name>dfs.data.dir</name>
-				<value>/home/hdoop/dfsdata/namenode<value>
+				<value>/home/hdoop*/dfsdata/namenode<value>
 			</property>
 			<property>
 				<name>dfs.data.dir</name>
-				<value>home/hdoop/dfsdata/datanode</value>
+				<value>home/hdoop*/dfsdata/datanode</value>
 			</property>
 			<property>
 				<name>dfs.replication</name>
@@ -142,7 +142,7 @@
 		ls hadoop/sbin/start-dfs.sh ^C
 		vim .bashrc
 			i para iniciar a edição do arquivo
-			export PATH=/home/hdoop/hadoop/sbin:$PATH
+			export PATH=/home/hdoop*/hadoop/sbin:$PATH
 		:wq
 		source .bashrc
 		echo $PATH
