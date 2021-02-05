@@ -33,8 +33,7 @@ Video de referência: https://www.youtube.com/watch?v=tY7jmp81qPY
 		wget -c https://downloads.apache.org/hadoop/common/hadoop-3.2.2/hadoop-3.2.2.tar.gz
 		tar -vxf hadoop-3.2.2.tar.gz
 	Configuração:
-		cd src/
-		pwd
+		cd
 		EDITAR O BASHRC:
 		vim .bashrc
 			i para iniciar a edição do arquivo
