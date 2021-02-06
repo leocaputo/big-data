@@ -1,12 +1,9 @@
 Elastic Search:
 
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.10.2-amd64.deb
-
 sudo dpkg -i elasticsearch-7.10.2-amd64.deb
-
 sudo /bin/systemctl daemon-reload
 sudo /bin/systemctl enable elasticsearch.service
-
 sudo -i service elasticsearch start
 
 No notebook Jupyter:
@@ -14,6 +11,23 @@ No notebook Jupyter:
 !pip install elasticsearch
 !pip install csv2es
 !pip install requests
+
+Para resolver problemas no elastic search:
+pip install -U elasticsearch
+sudo -i service elasticsearch status
+sudo -i service elasticsearch start
+sudo -i service elasticsearch restart
+
+matar spark = Ctrl c no terminal onde o spark foi aberto
+
+
+
+
+
+
+
+
+OLD:
 
 No terminal:
 pip install -U elasticsearch
